@@ -68,7 +68,7 @@ class financeApp:
             print(f"Total:{total}")
      
     def setbudgets(self,category,amount):
-        self.budget[category] = amount
+        self.budget[category] = amount 
         print(f"Budget for {category} : {amount}")
 
 
@@ -80,7 +80,7 @@ class financeApp:
             if transaction.types == "Expense" and transaction.category == category:
                 print("adding amount:", transaction.amount)
                 total += transaction.amount
-                return total
+        return total
         
 
     def checkBudget(self,category):
@@ -106,7 +106,38 @@ class financeApp:
         
 
     def generateReports(self):
-        pass 
+        totalIncome = 0
+        totalExpense = 0
+        categoryTotals = {}
+        for transaction in self.transactions:
+            if transaction.types == "Income":
+                totalIncome += transaction.amount
+            
+            elif transaction.types == "Expense":
+                totalExpense += transaction.amount
+                if transaction not in categoryTotals.items():
+                    categoryTotals[transaction.category] = 0
+
+                categoryTotals[transaction.category] += transaction.amount
+
+        print("\n ----- FINANCIAL REPORT -----")
+        print(f"Total Income : {totalIncome}")
+        print(f"Total Expense : {totalExpense}")
+        print(f"Balance : {totalIncome - totalExpense}")
+        
+        print("\n Expense Breakdown by Category")
+        for category, amount in categoryTotals.items():
+            print(f"{category} : {amount}")
+
+            if category in self.budget[category]:
+                if amount > self.budget[category]:
+                    print("Over Budget!!")
+
+            else:
+                remaining = self.budget[category] - amount
+                print(f"Remaining Budget : {remaining}")
+        
+                   
 
 
 
@@ -176,7 +207,11 @@ while(True):
          
      
     elif(choice == "6"):
+        app.generateReports()
+       
+     
+    elif(choice == "7"):
         print("Existing The Application........")
-        exit() 
+        exit()
     else:
         print("invalid syntax, Please enter a valid input")
