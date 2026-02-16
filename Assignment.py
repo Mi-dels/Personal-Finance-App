@@ -37,7 +37,7 @@ class financeApp:
             if subcategory not in categorized[mainType]:
                 categorized[mainType][subcategory] = []
             categorized[mainType][subcategory].append(transaction)
-            return categorized
+        return categorized
 
     def mainCategory(self):
         print("\n Main Categories")
@@ -115,7 +115,8 @@ class financeApp:
             
             elif transaction.types == "Expense":
                 totalExpense += transaction.amount
-                if transaction not in categoryTotals.items():
+
+                if transaction not in categoryTotals:
                     categoryTotals[transaction.category] = 0
 
                 categoryTotals[transaction.category] += transaction.amount
@@ -129,13 +130,20 @@ class financeApp:
         for category, amount in categoryTotals.items():
             print(f"{category} : {amount}")
 
-            if category in self.budget[category]:
-                if amount > self.budget[category]:
+            if category in self.budget:
+                budgetAmount = self.budget[category]
+                if amount >  budgetAmount:
                     print("Over Budget!!")
 
+                else : 
+                    print(f"Main budget : {category}: Budget:{self.budget[category]}")
+                    remaining = self.budget[category] - amount
+                    print(f"Remaining Budget : {remaining}")
+                    
             else:
-                remaining = self.budget[category] - amount
-                print(f"Remaining Budget : {remaining}")
+                print("No budget set for this category")
+
+            
         
                    
 
